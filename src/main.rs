@@ -11,7 +11,7 @@ use std::io::{self, Read};
 fn main() {
     let matches = App::new("rust-cowsay")
         .version("v0.1.0-pre-alpha")
-        .author("Matt Smith. <matthew.smith491@gmail.com>")
+        .author("Xavier Delamotte <github@xade.eu>")
         .arg(
             Arg::with_name("MESSAGE")
                 .help("Message for cow to say")
@@ -62,12 +62,6 @@ fn main() {
         )
         .get_matches();
 
-    let mut cow = matches.value_of("cow").unwrap_or("default").to_owned();
-
-    if matches.is_present("random") {
-        let cows = list_cows();
-        cow = cows.choose(&mut rand::thread_rng()).unwrap().to_owned();
-    }
 
     let width = matches
         .value_of("width")
@@ -82,18 +76,14 @@ fn main() {
     };
     let mut message = message_vals.join(" ");
 
-    message = match &message[..] {
-        "" => {
-            let mut buffer = String::new();
-            io::stdin().read_to_string(&mut buffer).unwrap();
-            buffer.trim_end().to_string()
-        }
-        _ => message,
-    };
+    if message.is_empty(){
+        let mut buffer = String::new();
+        io::stdin().read_to_string(&mut buffer).unwrap();
+        message = buffer.trim_end().to_string();
+    }
+
 
     let tongue = matches.value_of("tongue").unwrap_or(" ");
-
-    // Cow Eyes
     let custom_eyes = matches.value_of("eyes").unwrap_or("default");
     let eyes = get_eyes(custom_eyes);
 
@@ -101,12 +91,19 @@ fn main() {
 
     if matches.is_present("all") {
         let list = list_cows();
-        for c in list {
-            let formatted_cow = format_cow(&message, &c, width, think, wrap, eyes, tongue);
-            println!("{}", c);
+        for cow in list {
+            let formatted_cow = format_cow(&message, &cow, width, think, wrap, eyes, tongue);
+            println!("{}", cow);
             println!("{}", formatted_cow);
         }
     } else {
+        let cow = if matches.is_present("random") {
+            let cows = list_cows();
+            cows.choose(&mut rand::thread_rng()).unwrap().to_owned()
+        }else{
+            matches.value_of("cow").unwrap_or("default").to_owned()
+        };
+        println!("{}", cow);
         let formatted_cow = format_cow(&message, &cow, width, think, wrap, eyes, tongue);
         println!("{}", formatted_cow);
     }

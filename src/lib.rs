@@ -12,7 +12,7 @@ use std::io::Read;
 use std::str;
 
 #[derive(RustEmbed)]
-#[folder = "src/cows/"]
+#[folder = "$CARGO_MANIFEST_DIR/src/cows/"]
 struct Asset;
 
 struct CowBubble {
@@ -89,8 +89,8 @@ pub fn format_cow(
                 .expect(&format!("Couldn't read cowfile {}", cow));
         }
         false => {
-            let fmt = &format!("{}.cow", &cow);
-            let asset = Asset::get(fmt).unwrap();
+            let fmt = format!("{}.cow", &cow);
+            let asset = Asset::get(&fmt).unwrap();
             cowbody = str::from_utf8(asset.as_ref()).unwrap().to_string();
         }
     }
