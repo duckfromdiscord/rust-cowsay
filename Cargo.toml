@@ -2,16 +2,9 @@
 name = "rust-cowsay"
 version = "0.1.0"
 authors = ["Matt Smith <matthew.smith491@gmail.com>"]
-build = "build.rs"
 
 [dependencies]
 clap = "~2.19.2"
-rand = "~0.3"
-
-[[bin]]
-name = "cowsay"
-path = "src/main.rs"
-
-[[bin]]
-name = "cowthink"
-path = "src/main.rs"
+rand = "~0.6.5"
+phf = { version = "0.7.24", features = ["macros"] }
+rust-embed="5.1.0"
