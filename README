@@ -7,8 +7,7 @@ Requires Rust 1.13+
 
 `cargo build`
 
-This creates `cowsay` and `cowthink` binaries.
-It includes the default cowfiles in each binary.
+This creates a `cowsay` binary.
 
 Running
 =======
