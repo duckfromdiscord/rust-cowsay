@@ -5,7 +5,7 @@ extern crate cowsay;
 
 use clap::{App, Arg};
 use rand::seq::SliceRandom;
-use rust_cowsay::{format_cow, get_eyes, list_cows};
+use cowsay::{format_cow, get_eyes, list_cows};
 use std::io::{self, Read};
 
 fn main() {
