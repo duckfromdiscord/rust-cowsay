@@ -1,7 +1,7 @@
 extern crate clap;
 extern crate phf;
 extern crate rand;
-extern crate rust_cowsay;
+extern crate cowsay;
 
 use clap::{App, Arg};
 use rand::seq::SliceRandom;
@@ -9,7 +9,7 @@ use rust_cowsay::{format_cow, get_eyes, list_cows};
 use std::io::{self, Read};
 
 fn main() {
-    let matches = App::new("rust-cowsay")
+    let matches = App::new("cowsay")
         .version("v0.1.0-pre-alpha")
         .author("Jose Perez <28468662+ThisNekoGuy@users.noreply.github.com>")
         .arg(
