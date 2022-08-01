@@ -11,7 +11,7 @@ use std::io::{self, Read};
 fn main() {
     let matches = App::new("rust-cowsay")
         .version("v0.1.0-pre-alpha")
-        .author("Xavier Delamotte <github@xade.eu>")
+        .author("Jose Perez <28468662+ThisNekoGuy@users.noreply.github.com>")
         .arg(
             Arg::with_name("MESSAGE")
                 .help("Message for cow to say")
@@ -19,44 +19,44 @@ fn main() {
         )
         .arg(
             Arg::with_name("cow")
-                .short("f")
+                .short('f')
                 .value_name("COW")
                 .help("Which cow should say"),
         )
-        .arg(Arg::with_name("think").short("t").help("Think"))
+        .arg(Arg::with_name("think").short('t').help("Think"))
         .arg(
             Arg::with_name("width")
-                .short("W")
+                .short('W')
                 .value_name("WIDTH")
                 .help("Max width of cow text bubble"),
         )
         .arg(
             Arg::with_name("nowrap")
-                .short("n")
+                .short('n')
                 .long("nowrap")
                 .help("Disable word wrap"),
         )
         .arg(
             Arg::with_name("eyes")
-                .short("e")
+                .short('e')
                 .value_name("EYES")
                 .help("Which eyes to pick or provide custom ones"),
         )
         .arg(
             Arg::with_name("tongue")
-                .short("T")
+                .short('T')
                 .value_name("TONGUE_STRING")
                 .help("Custom Tongue"),
         )
         .arg(
             Arg::with_name("random")
-                .short("r")
+                .short('r')
                 .long("random")
                 .help("Choose random cow"),
         )
         .arg(
             Arg::with_name("all")
-                .short("a")
+                .short('a')
                 .long("all")
                 .help("print all the cows"),
         )
