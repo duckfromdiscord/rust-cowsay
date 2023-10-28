@@ -3,65 +3,67 @@ extern crate phf;
 extern crate rand;
 extern crate cowsay;
 
-use clap::{App, Arg};
+use clap::{Command, Arg};
 use rand::seq::SliceRandom;
 use cowsay::{format_cow, get_eyes, list_cows};
 use std::io::{self, Read};
 
 fn main() {
-    let matches = App::new("cowsay")
-        .version("v0.1.0-pre-alpha")
-        .author("Jose Perez <28468662+ThisNekoGuy@users.noreply.github.com>")
-        .arg(
-            Arg::with_name("MESSAGE")
-                .help("Message for cow to say")
-                .multiple(true),
-        )
-        .arg(
-            Arg::with_name("cow")
-                .short('f')
-                .value_name("COW")
-                .help("Which cow should say"),
-        )
-        .arg(Arg::with_name("think").short('t').help("Think"))
-        .arg(
-            Arg::with_name("width")
-                .short('W')
-                .value_name("WIDTH")
-                .help("Max width of cow text bubble"),
-        )
-        .arg(
-            Arg::with_name("nowrap")
-                .short('n')
-                .long("nowrap")
-                .help("Disable word wrap"),
-        )
-        .arg(
-            Arg::with_name("eyes")
-                .short('e')
-                .value_name("EYES")
-                .help("Which eyes to pick or provide custom ones"),
-        )
-        .arg(
-            Arg::with_name("tongue")
-                .short('T')
-                .value_name("TONGUE_STRING")
-                .help("Custom Tongue"),
-        )
-        .arg(
-            Arg::with_name("random")
-                .short('r')
-                .long("random")
-                .help("Choose random cow"),
-        )
-        .arg(
-            Arg::with_name("all")
-                .short('a')
-                .long("all")
-                .help("print all the cows"),
-        )
-        .get_matches();
-
+    let matches = Command::new("cowsay")
+    .version("v0.1.5")
+    .author("Jose Perez <28468662+ThisNekoGuy@users.noreply.github.com>, duck <113956421+duckfromdiscord@users.noreply.github.com>")
+    .arg(
+        Arg::new("MESSAGE")
+        .help("Message for cow to say")
+    )
+    .arg(
+        Arg::new("cow")
+        .short('f')
+        .value_name("COW")
+        .help("Which cow should say")
+    )
+    .arg(
+        Arg::new("think")
+        .short('t')
+        .help("Think")
+    )
+    .arg(
+        Arg::new("width")
+        .short('W')
+        .value_name("WIDTH")
+        .help("Max width of cow text bubble")
+    )
+    .arg(
+        Arg::new("nowrap")
+        .short('n')
+        .long("nowrap")
+        .help("Disable word wrap")
+    )
+    .arg(
+        Arg::new("eyes")
+        .short('e')
+        .long("EYES")
+        .help("Which eyes to pick or provide custom ones")
+    )
+    .arg(
+        Arg::new("tongue")
+        .short('T')
+        .long("TONGUE_STRING")
+        .help("Custom Tongue")
+    )
+    .arg(
+        Arg::new("random")
+        .short('r')
+        .long("random")
+        .help("Choose random cow")
+    )
+    .arg(
+        Arg::new("all")
+        .short('a')
+        .long("all")
+        .help("print all the cows")
+    )
+    .get_matches();
 
     let width = matches
         .value_of("width")
