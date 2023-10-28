@@ -26,6 +26,7 @@ fn main() {
         Arg::new("think")
         .short('t')
         .help("Think")
+        .num_args(0)
     )
     .arg(
         Arg::new("width")
@@ -38,6 +39,7 @@ fn main() {
         .short('n')
         .long("nowrap")
         .help("Disable word wrap")
+        .num_args(0)
     )
     .arg(
         Arg::new("eyes")
@@ -56,24 +58,27 @@ fn main() {
         .short('r')
         .long("random")
         .help("Choose random cow")
+        .num_args(0)
     )
     .arg(
         Arg::new("all")
         .short('a')
         .long("all")
         .help("print all the cows")
+        .num_args(0)
     )
     .get_matches();
 
     let width = matches
-        .value_of("width")
+        .get_one::<String>("width")
+        .map(|x| &**x)
         .unwrap_or("40")
         .parse::<usize>()
         .unwrap();
 
-    let wrap = !matches.is_present("nowrap");
-    let message_vals = match matches.values_of("MESSAGE") {
-        Some(x) => x.collect::<Vec<_>>(),
+    let wrap = !matches.get_flag("nowrap");
+    let message_vals: Vec<&str> = match matches.get_many::<String>("MESSAGE") {
+        Some(x) => x.map(|x| &**x).collect::<Vec<_>>(),
         None => vec![""],
     };
     let mut message = message_vals.join(" ");
@@ -85,13 +90,13 @@ fn main() {
     }
 
 
-    let tongue = matches.value_of("tongue").unwrap_or(" ");
-    let custom_eyes = matches.value_of("eyes").unwrap_or("default");
+    let tongue = matches.get_one::<String>("tongue").map(|x| &**x).unwrap_or(" ");
+    let custom_eyes = matches.get_one::<String>("eyes").map(|x| &**x).unwrap_or("default");
     let eyes = get_eyes(custom_eyes);
 
-    let think = matches.is_present("think");
+    let think = matches.get_flag("think");
 
-    if matches.is_present("all") {
+    if matches.get_flag("all") {
         let list = list_cows();
         for cow in list {
             let formatted_cow = format_cow(&message, &cow, width, think, wrap, eyes, tongue);
@@ -99,13 +104,12 @@ fn main() {
             println!("{}", formatted_cow);
         }
     } else {
-        let cow = if matches.is_present("random") {
+        let cow = if matches.get_flag("random") {
             let cows = list_cows();
             cows.choose(&mut rand::thread_rng()).unwrap().to_owned()
         }else{
-            matches.value_of("cow").unwrap_or("default").to_owned()
+            matches.get_one::<String>("cow").map(|x| &**x).unwrap_or("default").to_owned()
         };
-        println!("{}", cow);
         let formatted_cow = format_cow(&message, &cow, width, think, wrap, eyes, tongue);
         println!("{}", formatted_cow);
     }
